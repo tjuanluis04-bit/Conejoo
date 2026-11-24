@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0a2230">
+<title>Conejo en su pecera</title>
+<style>
+:root{--bg1:#0a2230;--bg2:#14424f;--ink:#e6f5f2;--mute:#8fb5b8;--mint:#7fe0c3;--carrot:#ff9142;--panel:rgba(255,255,255,.07);--line:rgba(255,255,255,.14)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+html,body{height:100%;margin:0}
+body{font-family:ui-rounded,"Nunito","Trebuchet MS",system-ui,sans-serif;color:var(--ink);background:radial-gradient(120% 80% at 50% 0%,var(--bg2),var(--bg1));display:flex;flex-direction:column;padding:env(safe-area-inset-top) 16px calc(env(safe-area-inset-bottom) + 12px);overflow:hidden}
+header{padding:14px 4px 6px}
+h1{font-size:28px;line-height:1.1;margin:0;font-weight:800}
+h1 small{font-size:13px;font-weight:600;color:var(--mute);margin-left:6px}
+#status{font-size:15px;color:var(--mint);margin-top:4px;min-height:20px}
+main{flex:1;min-height:0;display:flex;justify-content:center}
+#tank{height:100%;max-width:100%}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0 12px}
+.stat label{font-size:13px;color:var(--mute);display:flex;justify-content:space-between}
+.bar{height:10px;border-radius:6px;background:var(--panel);overflow:hidden;margin-top:5px}
+.bar i{display:block;height:100%;width:50%;border-radius:6px;transition:width .6s}
+#sat i{background:linear-gradient(90deg,var(--carrot),#ffc36b)}
+#joy i{background:linear-gradient(90deg,#4cc9b0,var(--mint))}
+.food{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.food button{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:10px 0 9px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:13px;font-weight:700;transition:transform .12s,background .2s}
+.food button span{font-size:32px;line-height:1.1}
+.food button:active{transform:scale(.94);background:rgba(255,255,255,.14)}
+.food button:focus-visible{outline:2px solid var(--mint)}
+/* conejo */
+#rab{cursor:pointer}
+.ear{transform-box:fill-box;transform-origin:50% 100%}
+#earL{transform:rotate(-14deg)}
+#earR{transform:rotate(5deg);animation:wig 7s ease-in-out infinite}
+@keyframes wig{0%,88%,100%{transform:rotate(5deg)}91%{transform:rotate(-8deg)}94%{transform:rotate(10deg)}97%{transform:rotate(-4deg)}}
+.eye{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.08)}}
+#bodyg{transform-box:fill-box;transform-origin:50% 100%;animation:br 3s ease-in-out infinite}
+@keyframes br{50%{transform:scaleY(1.035)}}
+.sad #earL{transform:rotate(-62deg)}
+.sad #earR{animation:none;transform:rotate(58deg)}
+.sad .eye{animation:none;transform:scaleY(.55)}
+.sad #head{transform:translateY(5px)}
+#head.chew{animation:chew .22s ease-in-out infinite}
+@keyframes chew{50%{transform:translateY(3px) rotate(3deg)}}
+#rab.shake{animation:shk .4s}
+@keyframes shk{25%{margin-left:-6px}75%{margin-left:6px}}
+.bub{animation:rise 4s ease-in infinite;opacity:0}
+.bub:nth-child(2){animation-delay:1.3s}.bub:nth-child(3){animation-delay:2.4s}.bub:nth-child(4){animation-delay:3.1s}
+@keyframes rise{0%{transform:translateY(0);opacity:0}10%{opacity:.8}100%{transform:translateY(-330px);opacity:0}}
+.sway{transform-box:fill-box;transform-origin:50% 100%;animation:sw 5s ease-in-out infinite}
+@keyframes sw{50%{transform:rotate(4deg)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <h1><span id="name" role="button" tabindex="0">Copito</span><small>toca para renombrar</small></h1>
+  <div id="status" aria-live="polite"></div>
+</header>
+
+<main>
+<svg id="tank" viewBox="0 0 360 440" role="img" aria-label="Pecera con un conejo">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b8191"/><stop offset="1" stop-color="#0f3d4b"/></linearGradient>
+    <linearGradient id="sand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ecd8a8"/><stop offset="1" stop-color="#c2a068"/></linearGradient>
+    <linearGradient id="ray" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <clipPath id="inside"><rect x="20" y="28" width="320" height="388" rx="22"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#inside)">
+    <rect x="20" y="28" width="320" height="388" fill="url(#wall)"/>
+    <polygon points="60,28 110,28 90,380 20,380" fill="url(#ray)"/>
+    <polygon points="170,28 210,28 250,380 190,380" fill="url(#ray)" opacity=".7"/>
+    <!-- plantas -->
+    <g fill="#3fae6e">
+      <path class="sway" d="M44 392 C38 340 52 310 46 270 C62 312 58 350 52 392Z"/>
+      <path class="sway" d="M56 392 C62 350 78 330 74 300 C88 332 74 360 66 392Z" fill="#59c786" style="animation-delay:-2s"/>
+      <path class="sway" d="M310 392 C300 350 312 322 304 288 C324 326 322 360 322 392Z" style="animation-delay:-1s"/>
+      <path class="sway" d="M322 392 C330 360 338 340 334 312 C348 346 338 372 334 392Z" fill="#59c786" style="animation-delay:-3s"/>
+    </g>
+    <!-- burbujas -->
+    <g id="bubbler">
+      <circle class="bub" cx="286" cy="372" r="4" fill="#fff" opacity=".7"/>
+      <circle class="bub" cx="292" cy="372" r="2.6" fill="#fff"/>
+      <circle class="bub" cx="283" cy="372" r="3" fill="#fff"/>
+      <circle class="bub" cx="289" cy="372" r="2" fill="#fff"/>
+    </g>
+    <!-- arena -->
+    <path d="M20 384 Q110 370 190 380 T340 378 V416 H20Z" fill="url(#sand)"/>
+    <ellipse cx="288" cy="384" rx="10" ry="5" fill="#8f7a55"/>
+    <circle cx="96" cy="396" r="5" fill="#b69a66"/><circle cx="210" cy="400" r="4" fill="#a98a56"/><circle cx="150" cy="402" r="3" fill="#d9c18a"/>
+    <ellipse cx="318" cy="394" rx="14" ry="8" fill="#7e8b8f"/>
+    <g id="foods"></g>
+
+    <!-- conejo -->
+    <g id="rab"><g id="flip">
+      <ellipse cx="-4" cy="2" rx="42" ry="5" fill="#000" opacity=".2"/>
+      <g id="hop">
+        <g id="bodyg">
+          <circle cx="-38" cy="-24" r="11" fill="#fff"/>
+          <ellipse cx="-6" cy="-28" rx="38" ry="25" fill="#f6f1f3"/>
+          <ellipse cx="-22" cy="-9" rx="19" ry="9" fill="#e9dfe4"/>
+          <ellipse cx="24" cy="-5" rx="10" ry="6" fill="#f6f1f3"/>
+        </g>
+        <g id="head">
+          <g class="ear" id="earL"><ellipse cx="14" cy="-84" rx="7.5" ry="22" fill="#e9dfe4"/><ellipse cx="14" cy="-83" rx="3.6" ry="16" fill="#f5b3c2"/></g>
+          <g class="ear" id="earR"><ellipse cx="30" cy="-84" rx="7.5" ry="22" fill="#f6f1f3"/><ellipse cx="30" cy="-83" rx="3.6" ry="16" fill="#f5b3c2"/></g>
+          <circle cx="26" cy="-54" r="21" fill="#f6f1f3"/>
+          <circle cx="36" cy="-47" r="5" fill="#f7a9ba" opacity=".5"/>
+          <ellipse class="eye" cx="34" cy="-58" rx="3" ry="3.7" fill="#2a2230"/>
+          <circle cx="35" cy="-59.5" r="1.1" fill="#fff"/>
+          <ellipse cx="45" cy="-52" rx="3" ry="2.4" fill="#f08fa6"/>
+          <path d="M45 -50 q-2 5 -7 3 M45 -50 q2 4 6 2" stroke="#b08a99" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          <path d="M42 -50 L60 -54 M42 -48 L60 -46" stroke="#cdbfc6" stroke-width="1" stroke-linecap="round"/>
+        </g>
+      </g>
+    </g></g>
+    <g id="fx"></g>
+  </g>
+
+  <!-- vidrio -->
+  <rect x="20" y="28" width="320" height="388" rx="22" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3"/>
+  <path d="M34 60 Q34 44 48 42 L52 44 Q42 48 42 62 L42 330 L34 330Z" fill="#fff" opacity=".14"/>
+  <rect x="12" y="14" width="336" height="16" rx="8" fill="#0b1d27" stroke="#fff" stroke-opacity=".2"/>
+  <rect x="12" y="414" width="336" height="14" rx="7" fill="#0b1d27" stroke="#fff" stroke-opacity=".2"/>
+</svg>
+</main>
+
+<section class="stats" aria-label="Estado del conejo">
+  <div class="stat" id="sat"><label>Barriguita <b id="satv">0%</b></label><div class="bar"><i></i></div></div>
+  <div class="stat" id="joy"><label>Ánimo <b id="joyv">0%</b></label><div class="bar"><i></i></div></div>
+</section>
+
+<nav class="food" aria-label="Dar de comer">
+  <button data-f="carrot"><span>🥕</span>Zanahoria</button>
+  <button data-f="lettuce"><span>🥬</span>Lechuga</button>
+  <button data-f="apple"><span>🍎</span>Manzana</button>
+</nav>
+
+<script>
+const NS='http://www.w3.org/2000/svg', KEY='conejoPecera.v1';
+const $=s=>document.querySelector(s);
+const clamp=(v,a=0,b=100)=>Math.max(a,Math.min(b,v));
+let S={name:'Copito',sat:70,joy:70,t:Date.now()};
+try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const vib=ms=>{try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}};
+
+const TYPES={
+  carrot:{e:'🥕',sat:26,joy:4,msg:'¡Crunch, crunch!'},
+  lettuce:{e:'🥬',sat:18,joy:6,msg:'¡Qué fresquita!'},
+  apple:{e:'🍎',sat:12,joy:12,msg:'¡Su favorita!'}
+};
+
+/* --- estado y paso del tiempo (también mientras la app está cerrada) --- */
+function decay(){
+  const now=Date.now(), h=Math.max(0,(now-S.t)/3.6e6); S.t=now;
+  S.sat=clamp(S.sat-12*h);
+  S.joy=clamp(S.joy-(S.sat<30?10:4)*h);
+}
+function mood(){
+  if(S.sat<=15) return 'Tiene muchísima hambre';
+  if(S.sat<40) return 'Tiene hambre';
+  if(S.sat>=85&&S.joy>=60) return 'Está lleno y feliz';
+  if(S.joy<35) return 'Está algo apagado. Un mimo ayuda';
+  return 'Está tranquilo';
+}
+let msgUntil=0;
+function say(t){$('#status').textContent=t;msgUntil=Date.now()+2200}
+function render(){
+  $('#sat i').style.width=S.sat+'%';$('#joy i').style.width=S.joy+'%';
+  $('#satv').textContent=Math.round(S.sat)+'%';$('#joyv').textContent=Math.round(S.joy)+'%';
+  $('#name').textContent=S.name;
+  $('#rab').classList.toggle('sad',S.sat<35||S.joy<30);
+  if(Date.now()>msgUntil) $('#status').textContent=mood();
+}
+setInterval(()=>{decay();save();render()},1000);
+document.addEventListener('visibilitychange',()=>{decay();render()});
+
+$('#name').addEventListener('click',()=>{
+  const n=(prompt('¿Cómo se llama tu conejo?',S.name)||'').trim().slice(0,14);
+  if(n){S.name=n;save();render()}
+});
+
+/* --- comida --- */
+const foodsG=$('#foods'), fx=$('#fx'), foods=[];
+const FLOOR=380, MINX=62, MAXX=300;
+function give(k){
+  if(S.sat>=95){say('Ya no le cabe nada más');shake();return}
+  if(foods.filter(f=>!f.taken).length>=4) return;
+  const el=document.createElementNS(NS,'text');
+  el.textContent=TYPES[k].e;el.setAttribute('font-size','26');el.setAttribute('text-anchor','middle');
+  foodsG.appendChild(el);
+  foods.push({k,x:70+Math.random()*220,y:40,vy:0,el,landed:false,taken:false});
+  vib(15);
+}
+document.querySelectorAll('.food button').forEach(b=>b.addEventListener('click',()=>give(b.dataset.f)));
+
+function shake(){const r=$('#rab');r.classList.remove('shake');void r.getBoundingClientRect();r.classList.add('shake');vib([20,40,20])}
+function heart(x,txt='♥'){
+  const t=document.createElementNS(NS,'text');
+  t.textContent=txt;t.setAttribute('x',x+(Math.random()*30-10));t.setAttribute('y',FLOOR-100);
+  t.setAttribute('font-size','22');t.setAttribute('fill','#ff8fb0');t.setAttribute('text-anchor','middle');
+  fx.appendChild(t);
+  t.animate([{transform:'translateY(0)',opacity:1},{transform:'translateY(-46px)',opacity:0}],{duration:1200,easing:'ease-out'}).onfinish=()=>t.remove();
+}
+
+/* --- conejo --- */
+const rab=$('#rab'), flip=$('#flip'), hop=$('#hop'), head=$('#head');
+let x=180, dir=1, phase=0, hopY=0, eatF=null, eating=0, wanderX=180, idleUntil=0;
+
+rab.addEventListener('click',()=>{
+  if(eatF) return;
+  S.joy=clamp(S.joy+4);heart(x);heart(x+12);say('¡Le encantan tus caricias!');vib(10);save();render();
+});
+
+function finishEat(){
+  const T=TYPES[eatF.k];
+  S.sat=clamp(S.sat+T.sat);S.joy=clamp(S.joy+T.joy);
+  eatF.el.remove();eatF.taken=true;foods.splice(foods.indexOf(eatF),1);
+  head.classList.remove('chew');eatF=null;
+  heart(x);say(T.msg);vib(25);save();render();
+}
+
+let last=performance.now();
+function loop(ts){
+  const dt=Math.min(.05,(ts-last)/1000);last=ts;
+
+  for(const f of foods){
+    if(!f.landed){f.vy+=520*dt;f.y+=f.vy*dt;if(f.y>=FLOOR-6){f.y=FLOOR-6;f.landed=true}}
+    f.el.setAttribute('x',f.x);f.el.setAttribute('y',f.y);
+  }
+
+  let tx=null, speed=55;
+  if(eatF){
+    eating-=dt;head.classList.add('chew');
+    if(eating<=0) finishEat();
+  }else{
+    const c=foods.filter(f=>f.landed&&!f.taken).sort((a,b)=>Math.abs(a.x-x)-Math.abs(b.x-x))[0];
+    if(c){
+      const side=c.x>x?1:-1;
+      tx=clamp(c.x-side*50,MINX,MAXX);speed=125;
+      if(Math.abs(tx-x)<6){dir=side;eatF=c;eating=1.2;tx=null}
+    }else{
+      if(Date.now()>idleUntil){
+        wanderX=MINX+Math.random()*(MAXX-MINX);
+        idleUntil=Date.now()+2000+Math.random()*3500;
+      }
+      if(Math.abs(wanderX-x)>4) tx=wanderX;
+      if(S.sat<35) speed=35;
+    }
+  }
+
+  if(tx!==null&&Math.abs(tx-x)>2){
+    dir=tx>x?1:-1;x+=dir*speed*dt;phase+=dt*speed/9;
+    hopY=-Math.abs(Math.sin(phase))*(speed>100?13:7);
+  }else{hopY*=.7}
+
+  rab.setAttribute('transform',`translate(${x.toFixed(1)} ${FLOOR})`);
+  flip.setAttribute('transform',`scale(${dir*1.15} 1.15)`);
+  hop.setAttribute('transform',`translate(0 ${hopY.toFixed(1)})`);
+  requestAnimationFrame(loop);
+}
+
+decay();save();render();
+say('Toca una comida para dársela');
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

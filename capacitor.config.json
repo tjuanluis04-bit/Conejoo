@@ -1,0 +1,7 @@
+{
+  "appId": "com.conejo.pecera",
+  "appName": "Conejo en su Pecera",
+  "webDir": "www",
+  "backgroundColor": "#0a2230",
+  "android": { "allowMixedContent": false }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "conejo-pecera",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Un conejo vivo en su pecera al que tienes que alimentar",
+  "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0"
+  }
+}
